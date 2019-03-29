@@ -16,8 +16,8 @@ def classify(number):
     # factor_sum = sum(k for k in range(1, number) if number % k == 0)
     factor_sum = sum(factor_sum_prime_factors(number))
 
-    l = [k for k in range(1, number) if number % k == 0]
-    print("sum of l = {}; l = {}".format(sum(l), l))
+    # l = [k for k in range(1, number) if number % k == 0]
+    # print("sum of l = {}; l = {}".format(sum(l), l))
 
     if factor_sum > number:
         return "abundant"
@@ -113,8 +113,6 @@ def _powers_of_k_divisors(n, k):
     """
     divisors = set()
 
-    print("_powers_of_k_divisors: n = {} k = {}".format(n, k))
-
     i = k
 
     while i < n and n % i == 0:
@@ -123,6 +121,5 @@ def _powers_of_k_divisors(n, k):
         divisors.add(n // i)
 
         i *= k
-        print("next time round i = {}".format(i))
 
     return divisors
