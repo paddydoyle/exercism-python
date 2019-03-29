@@ -13,8 +13,8 @@ def classify(number):
     # it will be one of the other factors.
 
     # Calculate once; multiple tests below.
-    # factor_sum = sum(k for k in range(1, number) if number % k == 0)
-    factor_sum = sum(factor_sum_prime_factors(number))
+    factor_sum = sum(k for k in range(1, number) if number % k == 0)
+    # factor_sum = sum(factor_sum_prime_factors(number))
 
     # l = [k for k in range(1, number) if number % k == 0]
     # print("sum of l = {}; l = {}".format(sum(l), l))
