@@ -42,45 +42,25 @@ def factor_sum_prime_factors(n):
 
     unique_factors = set()
 
-    # Split off even factors, so we can focus on incrementing
-    # odd numbers below.
-    i = 1
-    while 2 < n and n % 2 == 0:
-        unique_factors.add(2 * i)
-        print("adding ONE {}".format(2 * i))
+    # Test all powers of 2.
+    unique_factors = unique_factors.union(_powers_of_k_divisors(number, 2))
 
-        unique_factors.add(n // 2)
-        print("adding TWO {}".format(n // 2))
-
-        unique_factors.add(number // 2)
-        print("adding THREE {}".format(number // 2))
-
-        n //= 2
-        i *= 2
-
-    # Test all odd numbers, up to sqrt of n.
+    # Test all powers of odd numbers, up to sqrt of n.
     # Would be nice to just go to the next prime, but then we'd have
     # to find the next prime after the current k, which might be just
     # as much work unless we have a list of them handy.
     k = 3
     while k < n and k * k <= n:
-        i = 1
-        while n % k == 0:
-            unique_factors.add(k * i)
-            print("adding ONE {}".format(k * i))
-
-            unique_factors.add(n // k)
-            print("adding TWO {}".format(n // k))
-
-            unique_factors.add(number // k)
-            print("adding THREE {}".format(number // k))
-            n //= k
-            i *= k
+        unique_factors = unique_factors.union(_powers_of_k_divisors(number, k))
 
         k += 2
 
     print("unique factors of {} = {}".format(number, sorted(unique_factors)))
 
+    # Now must test combinations of the various factors that we have found
+    # already. For example for 168 we have already found
+    # [2, 3, 4, 7, 8, 21, 24, 42, 56, 84] but have not yet found
+    # [6, 12, 14, 28]
     extra_factors = set()
 
     while True:
@@ -133,11 +113,16 @@ def _powers_of_k_divisors(n, k):
     """
     divisors = set()
 
-    while n % k == 0:
-        print("k = {}; n = {}; rem = {}".format(k, n, n // k))
-        divisors.add(k)
-        divisors.add(n // k)
+    print("_powers_of_k_divisors: n = {} k = {}".format(n, k))
 
-        k *= k
+    i = k
+
+    while i < n and n % i == 0:
+        print("i = {}; n = {}; rem = {}".format(i, n, n // k))
+        divisors.add(i)
+        divisors.add(n // i)
+
+        i *= k
+        print("next time round i = {}".format(i))
 
     return divisors
