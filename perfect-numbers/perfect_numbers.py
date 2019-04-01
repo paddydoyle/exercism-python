@@ -14,7 +14,7 @@ def classify(number):
 
     # Calculate once; multiple tests below.
     # factor_sum = sum(k for k in range(1, number) if number % k == 0)
-    factor_sum = sum(factor_sum_prime_factors(number))
+    factor_sum = sum(_factor_sum(number))
 
     # l = [k for k in range(1, number) if number % k == 0]
     # print("sum of l = {}; l = {}".format(sum(l), l))
@@ -27,30 +27,39 @@ def classify(number):
         return "deficient"
 
 
-def factor_sum_prime_factors(n):
+def _factor_sum(number):
     """
-    Return a list of the prime factors of n, including duplicates. For
-    example, the factors of 60 are: [2, 2, 3, 5]
+    Return a list of all unique factors of number. For example, the factors
+    60 are: [1, 2, 3, 4, 6, 7, 8, 12, 14, 21, 24, 28, 42, 56, 84]
     """
+
+    # The method is based on finding the prime factors of the number, and
+    # storing each divisor and co-divisor in a set.
+    # Multiple powers of each given prime factor are tested.
+    # The combinatorial expansion of all of the prime (and multiplicative
+    # prime) factors are all tested. This may produce other composite
+    # combinations, so each time new combinations are found, they are added
+    # to the search list.
+    # Once no more combinations of factors are found, the loop exits and
+    # we have found the factors.
+    # Finally, '1' is added to the list.
 
     # Edge case
-    if n == 1:
+    if number == 1:
         return []
 
-    # Save the original number.
-    number = n
-
+    # Use a set so we don't have to worry about duplicates.
     unique_factors = set()
 
     # Test all powers of 2.
     unique_factors = unique_factors.union(_powers_of_k_divisors(number, 2))
 
-    # Test all powers of odd numbers, up to sqrt of n.
+    # Test all powers of odd numbers, up to sqrt of number.
     # Would be nice to just go to the next prime, but then we'd have
     # to find the next prime after the current k, which might be just
     # as much work unless we have a list of them handy.
     k = 3
-    while k < n and k * k <= n:
+    while k < number and k * k <= number:
         unique_factors = unique_factors.union(_powers_of_k_divisors(number, k))
 
         k += 2
