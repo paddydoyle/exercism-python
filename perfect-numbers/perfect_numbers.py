@@ -16,8 +16,8 @@ def classify(number):
     # factor_sum = sum(k for k in range(1, number) if number % k == 0)
     factor_sum = sum(_factor_sum(number))
 
+    # Naive approach: just iterate and test for division.
     # l = [k for k in range(1, number) if number % k == 0]
-    # print("sum of l = {}; l = {}".format(sum(l), l))
 
     if factor_sum > number:
         return "abundant"
@@ -30,11 +30,11 @@ def classify(number):
 def _factor_sum(number):
     """
     Return a list of all unique factors of number. For example, the factors
-    60 are: [1, 2, 3, 4, 6, 7, 8, 12, 14, 21, 24, 28, 42, 56, 84]
+    of 168 are: [1, 2, 3, 4, 6, 7, 8, 12, 14, 21, 24, 28, 42, 56, 84]
     """
 
-    # The method is based on finding the prime factors of the number, and
-    # storing each divisor and co-divisor in a set.
+    # The method is based on a sieve-like approach for finding the prime
+    # factors of the number, and storing each divisor and co-divisor in a set.
     # Multiple powers of each given prime factor are tested.
     # The combinatorial expansion of all of the prime (and multiplicative
     # prime) factors are all tested. This may produce other composite
@@ -85,17 +85,11 @@ def _factor_sum(number):
 
                 # assumes that the search_list was sorted
                 if st >= number:
-                    print("breaking the inner: st = {}".format(st))
                     break
 
                 if number % st == 0 and st not in unique_factors:
-                    print("FOUND a new factor pair: {} and {}".format(
-                        st, number // st))
                     extra_factors.add(st)
                     extra_factors.add(number // st)
-
-        print("INNER: unique_factors = {}".format(unique_factors))
-        print("INNER: extra_factors = {}".format(extra_factors))
 
         if extra_factors:
             unique_factors = unique_factors.union(extra_factors)
@@ -104,15 +98,9 @@ def _factor_sum(number):
 
     unique_factors.add(1)
 
-    print("search_list = {}".format(sorted(search_list)))
-    print("sum(search_list) = {}".format(sum(search_list)))
-    print("unique_factors = {}".format(sorted(unique_factors)))
-    print("sum(unique_factors) = {}".format(sum(unique_factors)))
-
     return unique_factors
 
 
-# Helper function
 def _sieve_powers(n, k):
     """
     Find all powers of k which divide n. Add the divisor and
