@@ -52,7 +52,8 @@ def _factor_sum(number):
     unique_factors = set()
 
     # Test all powers of 2.
-    unique_factors = unique_factors.union(_powers_of_k_divisors(number, 2))
+    k = 2
+    unique_factors = unique_factors.union(_sieve_powers(number, k))
 
     # Test all powers of odd numbers, up to sqrt of number.
     # Would be nice to just go to the next prime, but then we'd have
@@ -60,11 +61,9 @@ def _factor_sum(number):
     # as much work unless we have a list of them handy.
     k = 3
     while k < number and k * k <= number:
-        unique_factors = unique_factors.union(_powers_of_k_divisors(number, k))
+        unique_factors = unique_factors.union(_sieve_powers(number, k))
 
         k += 2
-
-    print("unique factors of {} = {}".format(number, sorted(unique_factors)))
 
     # Now must test combinations of the various factors that we have found
     # already. For example for 168 we have already found
@@ -72,6 +71,7 @@ def _factor_sum(number):
     # [6, 12, 14, 28]
     extra_factors = set()
 
+    # Keep looping until not additional factors are found.
     while True:
         extra_factors.clear()
         search_list = sorted(unique_factors)
@@ -81,8 +81,6 @@ def _factor_sum(number):
 
             # Triangular search of the list
             for t in search_list[i+1:]:
-                print("s = {}; t = {}; st = {}; rem = {}".format(
-                    s, t, s * t, number % (s * t)))
                 st = s * t
 
                 # assumes that the search_list was sorted
@@ -115,20 +113,23 @@ def _factor_sum(number):
 
 
 # Helper function
-def _powers_of_k_divisors(n, k):
+def _sieve_powers(n, k):
     """
     Find all powers of k which divide n. Add the divisor and
-    its co-divisor to the set.
+    its co-divisor to the set. Similar in spirit to a sieve
+    approach for finding primes.
     """
+
+    # Use a set to prevent duplicates.
     divisors = set()
 
     i = k
 
     while i < n and n % i == 0:
-        print("i = {}; n = {}; rem = {}".format(i, n, n // k))
         divisors.add(i)
         divisors.add(n // i)
 
+        # Powers of k
         i *= k
 
     return divisors
