@@ -37,22 +37,22 @@ class BankAccount(object):
             self.state = self.State.OPEN
 
     def deposit(self, amount):
+        if amount < 0:
+            raise ValueError("Can only deposit positive amounts")
+
         with self.lock:
             if self.state != self.State.OPEN:
                 raise ValueError("Can only check balance of open accounts")
 
-            if amount < 0:
-                raise ValueError("Can only deposit positive amounts")
-
             self.balance += amount
 
     def withdraw(self, amount):
+        if amount < 0:
+            raise ValueError("Can only withdraw positive amounts")
+
         with self.lock:
             if self.state != self.State.OPEN:
                 raise ValueError("Can only withdraw from open accounts")
-
-            if amount < 0:
-                raise ValueError("Can only withdraw positive amounts")
 
             if self.balance < amount:
                 raise ValueError("Unable to withdraw more than balance")
