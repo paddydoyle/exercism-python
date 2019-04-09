@@ -1,9 +1,6 @@
 def is_isogram(string):
     # Extract only alphabetic chars, as lower case.
-    all_chars = [x.lower() for x in string if x.isalpha()]
+    all_chars = [ch.lower() for ch in string if ch.isalpha()]
 
-    # Add to a set. Duplicates will be removed.
-    unique_chars = set(all_chars)
-
-    # If both sizes are the same, then no duplicates.
-    return len(all_chars) == len(unique_chars)
+    # No duplicates in a set, so test for equal lengths.
+    return len(all_chars) == len(set(all_chars))
