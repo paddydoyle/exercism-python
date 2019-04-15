@@ -1,11 +1,32 @@
 class Allergies(object):
+    # Hash for fast lookup.
+    _allergy_scores = {
+        'eggs': 1,
+        'peanuts': 2,
+        'shellfish': 4,
+        'strawberries': 8,
+        'tomatoes': 16,
+        'chocolate': 32,
+        'pollen': 64,
+        'cats': 128,
+    }
 
     def __init__(self, score):
-        pass
+        self._score = score
+
+        # Build a list of what we are allergic to.
+        self._lst = [item for item, sc in self._allergy_scores.items()
+                     if sc & self._score]
 
     def is_allergic_to(self, item):
-        pass
+        if not self._allergy_scores[item]:
+            raise ValueError("Unknown allergen: {}".format(item))
+
+        if self._allergy_scores[item] & self._score > 0:
+            return True
+        else:
+            return False
 
     @property
     def lst(self):
-        pass
+        return self._lst
