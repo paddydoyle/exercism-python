@@ -22,8 +22,8 @@ class Allergies(object):
         if not self._allergy_scores[item]:
             raise ValueError("Unknown allergen: {}".format(item))
 
-        # Any match using bitwise AND?
-        return self._allergy_scores[item] & self._score > 0
+        # In the list?
+        return item in self._lst
 
     @property
     def lst(self):
