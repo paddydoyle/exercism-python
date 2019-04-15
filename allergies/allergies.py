@@ -14,7 +14,7 @@ class Allergies(object):
     def __init__(self, score):
         self._score = score
 
-        # Build a list of what we are allergic to.
+        # Build a list of what we are allergic to, using bitwise AND.
         self._lst = [item for item, sc in self._allergy_scores.items()
                      if sc & self._score]
 
@@ -22,10 +22,8 @@ class Allergies(object):
         if not self._allergy_scores[item]:
             raise ValueError("Unknown allergen: {}".format(item))
 
-        if self._allergy_scores[item] & self._score > 0:
-            return True
-        else:
-            return False
+        # Any match using bitwise AND?
+        return self._allergy_scores[item] & self._score > 0
 
     @property
     def lst(self):
