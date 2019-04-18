@@ -6,11 +6,7 @@ def sum_of_multiples(limit, factors):
         if not factor:
             continue
 
-        # All multiples of factor
-        i = factor
-        while i < limit:
-            # But only keep unique multiples, over all values in factor list.
-            multiples.add(i)
-            i += factor
+        # Add the list of multiples of factor to the set
+        multiples.update(range(factor, limit, factor))
 
     return sum(multiples)
