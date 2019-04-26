@@ -5,9 +5,13 @@ def triplets_with_sum(sum_of_triplet):
     triplets = set()
     # all_triplets = set()
 
-    for a in range(1, sum_of_triplet):
+    # It's well known that (3,4,5) is the smallest triplet, so start at 3
+    for a in range(3, sum_of_triplet // 2):
+        print(">> a = {}".format(a))
         # Fix a, and range b up to half of the sum_of_triplet
         # to reduce duplicates.
+        # a < b, so start at a + 1
+        # b < c, so finish at '(sum_of_triplet - a + 1) // 2'
         for b in range(a + 1, (sum_of_triplet - a + 1) // 2):
             c = sum_of_triplet - a - b
 
@@ -18,8 +22,9 @@ def triplets_with_sum(sum_of_triplet):
 
             # all_triplets.add(triplet)
 
-            # print("a = {}; b = {}; c = {}; sum = {}; is_triplet? {}"
-            #         .format(a, b, c, (a + b + c), is_triplet(triplet)))
+            # print("a {} b {} c {}; sum {}; is_triplet? {}; sum ab {}; c {}"
+            #       .format(a, b, c, (a + b + c), is_triplet(triplet),
+            #               (a**2 + b**2), c**2))
 
             if is_triplet(triplet):
                 triplets.add(triplet)
