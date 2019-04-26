@@ -7,7 +7,23 @@ def triplets_with_sum(sum_of_triplet):
 
     # It's well known that (3,4,5) is the smallest triplet, so start at 3
     for a in range(3, sum_of_triplet // 2):
-        print(">> a = {}".format(a))
+        # print(">> a = {}".format(a))
+
+        # a!=b, so subtract one
+        test_b = ((sum_of_triplet - a - 1) // 2)
+        test_c = sum_of_triplet - a - test_b
+
+        # print(">>> test_b = {} test_c = {}".format(test_b, test_c))
+
+        # Have gone past the condition (a < b); we're done
+        if test_b <= a:
+            break
+
+        # If the biggest 'b' in this inner loop is still to small to
+        # reach 'c', then skip this whole branch.
+        if (a**2 + test_b**2) < test_c**2:
+            continue
+
         # Fix a, and range b up to half of the sum_of_triplet
         # to reduce duplicates.
         # a < b, so start at a + 1
