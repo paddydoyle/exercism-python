@@ -21,78 +21,38 @@ def triplets_with_sum(sum_of_triplet):
         low_c = sum_of_triplet - a - low_b
 
         low_triplet = (a, low_b, low_c)
-        # print(">>> low_triplet = {}".format(low_triplet))
 
         # Last values of (a, b) pair in this inner loop.
-        # a != b, so subtract one, then split the difference
+        # a != b and a < b, so subtract one, then split the difference
         high_b = ((sum_of_triplet - a - 1) // 2)
         high_c = sum_of_triplet - a - high_b
 
         high_triplet = (a, high_b, high_c)
-        # print(">>> high_triplet = {}".format(high_triplet))
 
-        # Have gone past the condition (a < b); we're done
-        if high_b <= a:
-            # print("xxxxxxxxxxxxxxxxxxxxxxx a = {} high_b = {} top = {}"
-            #       .format(a, high_b, (sum_of_triplet // 3)))
-            break
-
-        # Check if we've hit an answer at the edges
+        # Check if we've hit an answer at the edges of the 'b' range.
 
         # The first pair is a match? No need to continue this branch.
-        low_diff = pythag_diff(low_triplet)
-        # print("    low diff = {}".format(low_diff))
+        low_diff = _pythag_diff(low_triplet)
         if low_diff == 0:
             triplets.add(low_triplet)
             continue
 
         # The last pair is a match? No need to continue this branch.
-        high_diff = pythag_diff(high_triplet)
-        # print("    high diff = {}".format(high_diff))
+        high_diff = _pythag_diff(high_triplet)
         if high_diff == 0:
             triplets.add(high_triplet)
             continue
 
-        if not _signs_differ(low_diff, high_diff):
-            # print("NOT OKKKKKKKKKKKK to search")
+        # If the top and bottom have the same sign, then there is no way
+        # to have a valid triplet in this range, so skip it.
+        if _same_sign(low_diff, high_diff):
             continue
 
-        x = binary_search(sum_of_triplet, low_triplet, high_triplet,
-                          low_diff, high_diff)
-        # print("result of binary_search = {}".format(x))
-        if x:
-            # binary_triplets.add(x)
-            triplets.add(x)
-
-        # If the biggest 'b' in this inner loop is still to small to
-        # reach 'c', then skip this whole branch.
-        # if (a**2 + high_b**2) < high_c**2:
-        #     # print(">>>>>>> NOT iiiiiiiiiiiii to search")
-        #     continue
-
-        # Fix a, and range b up to half of the sum_of_triplet
-        # to reduce duplicates.
-        # a < b, so start at a + 1
-        # b < c, so finish at '(sum_of_triplet - a + 1) // 2'
-        # for b in range(a + 1, (sum_of_triplet - a + 1) // 2):
-        #     c = sum_of_triplet - a - b
-
-        #     triplet = (a, b, c)
-
-        #     # if triplet in all_triplets:
-        #     #     print("FOUND duplicate {}".format(triplet))
-
-        #     # all_triplets.add(triplet)
-
-        #     # print("a {} b {} c {}; sum {}; is_triplet? {}; sum ab {}; c {}"
-        #     #       .format(a, b, c, (a + b + c), is_triplet(triplet),
-        #     #               (a**2 + b**2), c**2))
-
-        #     if is_triplet(triplet):
-        #         triplets.add(triplet)
-
-    # print("len(ALL) = {}".format(len(all_triplets)))
-    # print("result of ALL binary_searches = {}".format(binary_triplets))
+        # Binary search on the values of 'b' in this range.
+        triplet = binary_search(sum_of_triplet, low_triplet, high_triplet,
+                                low_diff, high_diff)
+        if triplet:
+            triplets.add(triplet)
 
     return triplets
 
@@ -113,11 +73,11 @@ def _sign(x):
     return math.copysign(1, x)
 
 
-def _signs_differ(low_diff, high_diff):
-    return _sign(low_diff) != _sign(high_diff)
+def _same_sign(low_diff, high_diff):
+    return _sign(low_diff) == _sign(high_diff)
 
 
-def pythag_diff(triplet):
+def _pythag_diff(triplet):
     """
     Calculate the Pythagorean difference of c^2 - (a^2 + b^2)
     """
@@ -160,10 +120,10 @@ def binary_search(sum_of_triplet, low_triplet, high_triplet,
 
         if is_triplet(mid_triplet):
             # print("FOUND = {}; diff = {}"
-            # .format(mid_triplet, pythag_diff(mid_triplet)))
+            # .format(mid_triplet, _pythag_diff(mid_triplet)))
             return mid_triplet
 
-        mid_diff = pythag_diff(mid_triplet)
+        mid_diff = _pythag_diff(mid_triplet)
         # print("binary: loop: mid DIFF = {}".format(mid_diff))
         # print("binary: loop: SIGN low = {} high = {}"
         # .format(low_sign, high_sign))
@@ -173,13 +133,13 @@ def binary_search(sum_of_triplet, low_triplet, high_triplet,
             # print("shift UP low")
             low_triplet = mid_triplet
             (low_a, low_b, low_c) = low_triplet
-            low_diff = pythag_diff(low_triplet)
+            low_diff = _pythag_diff(low_triplet)
             low_sign = _sign(low_diff)
         else:
             # print("shift DOWN high")
             high_triplet = mid_triplet
             (high_a, high_b, high_c) = high_triplet
-            high_diff = pythag_diff(high_triplet)
+            high_diff = _pythag_diff(high_triplet)
             high_sign = _sign(high_diff)
 
     return None
