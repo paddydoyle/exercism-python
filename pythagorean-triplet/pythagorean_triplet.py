@@ -1,20 +1,16 @@
 import math
 
 
-# https://en.wikipedia.org/wiki/Pythagorean_triple#Enumeration_of_primitive_Pythagorean_triples
 def triplets_with_sum(sum_of_triplet):
-    # set([(3, 4, 5)])
-
     triplets = set()
-    binary_triplets = set()
-    # all_triplets = set()
 
-    # It's well known that (3,4,5) is the smallest triplet, so start at 3
+    # Outer loop: 'a'
+    # It's well known that (3,4,5) is the smallest triplet, so start 'a'
+    # at 3.
     # Go up to (sum_of_triplet // 3) since we're dividing the single
     # number into the sum of 3 numbers, with (a < b < c). So beyond
     # (sum_of_triplet // 3) 'a' won't satifify that condition.
     for a in range(3, sum_of_triplet // 3):
-        # print(">> a = {}".format(a))
 
         # First values of (a, b) pair in this inner loop.
         low_b = a + 1
@@ -62,18 +58,26 @@ def triplets_in_range(range_start, range_end):
 
 
 def is_triplet(triplet):
-    # Assumes 'triplet' is a tuple
+    """
+    Input of a tuple with 3 values.
+    Output: whether they form a Pythagorean Triplet
+    """
     (a, b, c) = triplet
 
     return a**2 + b**2 == c**2
 
 
-# Helper: no built-in sign function
 def _sign(x):
+    """
+    No built-in sign function.
+    """
     return math.copysign(1, x)
 
 
 def _same_sign(low_diff, high_diff):
+    """
+    Given two numeric inputs, do they have the same sign?
+    """
     return _sign(low_diff) == _sign(high_diff)
 
 
@@ -96,17 +100,10 @@ def binary_search(sum_of_triplet, low_triplet, high_triplet,
     (low_a, low_b, low_c) = low_triplet
     (high_a, high_b, high_c) = high_triplet
 
-    # print("binary: start: low = {}; high = {}"
-    # .format(low_triplet, high_triplet))
-
     low_sign = _sign(low_diff)
     high_sign = _sign(high_diff)
 
-    # 'a' is the same for both. We are searching on 'b'
     while low_b + 1 < high_b:
-        # print("binary: LOOPPPP: low = {}; high = {}"
-        # .format(low_triplet, high_triplet))
-
         # Binary search on 'b'
         mid_b = (low_b + high_b) // 2
         # 'a' is fixed
@@ -116,27 +113,18 @@ def binary_search(sum_of_triplet, low_triplet, high_triplet,
 
         mid_triplet = (mid_a, mid_b, mid_c)
 
-        # print("binary: loop: mid = {}".format(mid_triplet))
-
         if is_triplet(mid_triplet):
-            # print("FOUND = {}; diff = {}"
-            # .format(mid_triplet, _pythag_diff(mid_triplet)))
             return mid_triplet
 
         mid_diff = _pythag_diff(mid_triplet)
-        # print("binary: loop: mid DIFF = {}".format(mid_diff))
-        # print("binary: loop: SIGN low = {} high = {}"
-        # .format(low_sign, high_sign))
 
         # Need to test the signs in order to determine the direction
         if _sign(mid_diff) == low_sign:
-            # print("shift UP low")
             low_triplet = mid_triplet
             (low_a, low_b, low_c) = low_triplet
             low_diff = _pythag_diff(low_triplet)
             low_sign = _sign(low_diff)
         else:
-            # print("shift DOWN high")
             high_triplet = mid_triplet
             (high_a, high_b, high_c) = high_triplet
             high_diff = _pythag_diff(high_triplet)
