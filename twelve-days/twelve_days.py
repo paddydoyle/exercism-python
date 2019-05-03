@@ -22,6 +22,7 @@ def recite(start_verse, end_verse):
     # starting 'and'
     last_line = "a Partridge in a Pear Tree."
 
+    # Reverse order, to make the array slices easier.
     verses = ["twelve Drummers Drumming, ",
               "eleven Pipers Piping, ",
               "ten Lords-a-Leaping, ",
@@ -34,26 +35,23 @@ def recite(start_verse, end_verse):
               "three French Hens, ",
               "two Turtle Doves, "]
 
+    # Calculate once, for convenience. Add one because we've taken
+    # out the last verse; stored separately above.
     n_verses = len(verses) + 1
-    # print("n_verses {}".format(n_verses))
 
     outputs = []
 
     # Add 1 because we're starting to count at 1, not 0
     for verse in range(start_verse, end_verse + 1):
-        # print("verse {} of {}".format(start_verse, end_verse))
 
         day = days[verse]
-        # print("day = {}".format(day))
 
         if verse == 1:
             outputs.append(first_line.format(day) + last_line)
-            # print("111111 outputs = {}".format(outputs))
         else:
             outputs.append(first_line.format(day) +
                            ''.join(verses[n_verses - verse:]) +
                            'and ' +
                            last_line)
-            # print("ooo outputs = {}".format(outputs))
 
     return outputs
