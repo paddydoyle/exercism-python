@@ -8,11 +8,11 @@ def recite(start_verse, end_verse):
             "fifth",
             "sixth",
             "seventh",
-            "eight",
-            "nineth",
+            "eighth",
+            "ninth",
             "tenth",
             "eleventh",
-            "twelfth",]
+            "twelfth"]
 
     # Split off first line; we always use that. Include a token
     # for the ordinal day as a word.
@@ -32,7 +32,7 @@ def recite(start_verse, end_verse):
               "five Gold Rings, ",
               "four Calling Birds, ",
               "three French Hens, ",
-              "two Turtle Doves, ",]
+              "two Turtle Doves, "]
 
     n_verses = len(verses) + 1
     # print("n_verses {}".format(n_verses))
@@ -50,7 +50,10 @@ def recite(start_verse, end_verse):
             outputs.append(first_line.format(day) + last_line)
             # print("111111 outputs = {}".format(outputs))
         else:
-            outputs.append(first_line.format(day) + ''.join(verses[n_verses - verse:]) + 'and ' + last_line)
+            outputs.append(first_line.format(day) +
+                           ''.join(verses[n_verses - verse:]) +
+                           'and ' +
+                           last_line)
             # print("ooo outputs = {}".format(outputs))
 
     return outputs
