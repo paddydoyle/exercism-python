@@ -18,7 +18,7 @@ def recite(start_verse, end_verse):
     # for the ordinal day as a word.
     first_line = "On the {} day of Christmas my true love gave to me: "
 
-    # Split off last line for verse one, which includes the
+    # Split off last line for verse one, which does not include the
     # word 'and'. This is duplicated in the array, but simplifies
     # the array slice.
     last_line_verse_one = "a Partridge in a Pear Tree."
@@ -39,13 +39,12 @@ def recite(start_verse, end_verse):
               "two Turtle Doves, ",
               "and " + last_line_verse_one]
 
-    # Calculate once, for convenience. Add one because we've taken
-    # out the last verse; stored separately above.
-    n_verses = len(verses) + 1
+    # Calculate once, for convenience.
+    n_verses = len(verses)
 
     lyrics = []
 
-    # Add 1 because we're starting to count at 1, not 0
+    # Add 1 because the inputs start to count at 1, not 0
     for verse in range(start_verse, end_verse + 1):
 
         day = days[verse]
@@ -53,8 +52,8 @@ def recite(start_verse, end_verse):
         if verse == 1:
             lyrics.append(first_line.format(day) + last_line_verse_one)
         else:
-            # Subtract one because we started to count at 1, not 0
+            # Slice the last 'verse' verses.
             lyrics.append(first_line.format(day) +
-                          ''.join(verses[n_verses - verse - 1:]))
+                          ''.join(verses[n_verses - verse:]))
 
     return lyrics
