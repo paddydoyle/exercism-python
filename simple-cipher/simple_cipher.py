@@ -8,23 +8,19 @@ class Cipher(object):
 
         # If no key is supplied, generate a random string of 100 lowercase
         if not self.key:
-            # Reset the RNG, to ensure a unique name even if an external
+            # Reset the RNG
             random.seed()
 
             self.key = ''.join(random.choices(string.ascii_lowercase, k=100))
 
         # Instead of just storing the key, more efficient
         # to convert that directly into a list of offsets and
-        # store those.
-
+        # store those as well.
         self.offsets = [ord(k) - ord('a') for k in self.key]
 
     def encode(self, plaintext):
-        # Trivial case
-        if not self.key:
-            return plaintext
-
         cipher = []
+
         for i, p in enumerate(plaintext):
             # If the text is longer than the key
             key_index = i % len(self.key)
@@ -35,11 +31,8 @@ class Cipher(object):
         return ''.join(cipher)
 
     def decode(self, ciphertext):
-        # Trivial case
-        if not self.key:
-            return ciphertext
-
         plain = []
+
         for i, p in enumerate(ciphertext):
             # If the text is longer than the key
             key_index = i % len(self.key)
