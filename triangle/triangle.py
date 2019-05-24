@@ -2,30 +2,21 @@ def equilateral(sides):
     if not _verify_triangle(sides):
         return False
 
-    # For convenience
-    (a, b, c) = sides
-
-    return a == b == c
+    return len(set(sides)) == 1
 
 
 def isosceles(sides):
     if not _verify_triangle(sides):
         return False
 
-    # For convenience
-    (a, b, c) = sorted(sides)
-
-    return a == b or b == c
+    return len(set(sides)) <= 2
 
 
 def scalene(sides):
     if not _verify_triangle(sides):
         return False
 
-    # For convenience
-    (a, b, c) = sorted(sides)
-
-    return a != b and b != c
+    return len(set(sides)) == 3
 
 
 def _verify_triangle(sides):
