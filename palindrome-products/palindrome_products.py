@@ -105,17 +105,4 @@ def _is_palindrome(number):
     """
     word = str(number)
 
-    # Instead of just testing if the reverse is equal to
-    # the string, loop up to half-way; this should save time for
-    # very long input strings.
-    for i, ch in enumerate(word):
-        # A counter-example.
-        if ch != word[-i-1]:
-            return False
-
-        # Break once we get half-way
-        if i > len(word)/2:
-            return True
-
-    # No counter-example.
-    return True
+    return word == word[::-1]
