@@ -1,3 +1,6 @@
+from itertools import takewhile
+
+
 def proteins(strand):
     # Map the codon to their protein
     codon_mappings = {
@@ -31,10 +34,6 @@ def proteins(strand):
     # Return a list
     proteins = []
 
-    for codon in codons:
-        if codon in codon_stop:
-            break
-        elif codon in codon_mappings:
-            proteins.append(codon_mappings[codon])
-
-    return proteins
+    # Stop the search using takewhile
+    return [codon_mappings[codon] for codon in
+            takewhile(lambda c: c not in codon_stop, codons)]
