@@ -1,6 +1,3 @@
-import re
-
-
 # Ordinal days. The package num2words could be used here.
 ORDINAL_DAYS = ["first",
                 "second",
@@ -37,6 +34,9 @@ VERSE_TEMPLATE = "On the {} day of Christmas my true love gave to me: {}"
 
 
 def recite(start_verse, end_verse):
+    # Calculate once, for convenience.
+    n_verses = len(VERSES)
+
     lyrics = []
 
     # Add 1 because the inputs start to count at 1, not 0
@@ -46,11 +46,11 @@ def recite(start_verse, end_verse):
         ordinal_day = ORDINAL_DAYS[verse_num - 1]
 
         # Slice the last 'verse_num' lines of verses.
-        verses = VERSES[len(VERSES) - verse_num:]
+        verses = VERSES[n_verses - verse_num:]
 
         # Remove for one verse, rather than add for 11 verses.
         if verse_num == 1:
-            verses[0] = re.sub(r"^and ", "", verses[0])
+            verses[0] = verses[0][4:]
 
         lyrics.append(VERSE_TEMPLATE.format(ordinal_day, ", ".join(verses)))
 
