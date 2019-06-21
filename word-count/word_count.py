@@ -14,9 +14,6 @@ def count_words(sentence):
     words = pattern.findall(sentence.lower())
 
     for word in words:
-        if word not in count:
-            count[word] = 1
-        else:
-            count[word] += 1
+        count[word] = count.get(word, 0) + 1
 
     return count
