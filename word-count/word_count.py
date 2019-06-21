@@ -12,8 +12,8 @@ def count_words(sentence):
     for word in words:
         # Is there a better idiom here?
         if word not in count:
-            count[word] = 1
-        else:
-            count[word] += 1
+            count[word] = 0
+
+        count[word] += 1
 
     return count
