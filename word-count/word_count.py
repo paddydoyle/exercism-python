@@ -8,4 +8,5 @@ def count_words(sentence):
     # Allow single quote inside the word only.
     pattern = re.compile(RE_WORD_INCL_SINGLE_QUOTE)
 
-    return Counter(pattern.findall(sentence.lower()))
+    return Counter(match.group()
+                   for match in pattern.finditer(sentence.lower()))
