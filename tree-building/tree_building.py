@@ -11,16 +11,22 @@ class Node:
 
 
 def BuildTree(records):
+    def validateRecords(records):
+        if records:
+            if ordered_id[-1] != len(ordered_id) - 1:
+                raise ValueError('Tree must be continuous')
+            if ordered_id[0] != 0:
+                raise ValueError('Tree must start with id 0')
+
     root = None
     records.sort(key=lambda x: x.record_id)
     ordered_id = [i.record_id for i in records]
-    if records:
-        if ordered_id[-1] != len(ordered_id) - 1:
-            raise ValueError('Tree must be continuous')
-        if ordered_id[0] != 0:
-            raise ValueError('Tree must start with id 0')
+
+    validateRecords(records)
+
     trees = []
     parent = {}
+
     for i in range(len(ordered_id)):
         for j in records:
             if ordered_id[i] == j.record_id:
@@ -33,6 +39,7 @@ def BuildTree(records):
                     if j.record_id != 0:
                         raise ValueError('Tree is a cycle')
                 trees.append(Node(ordered_id[i]))
+
     for i in range(len(ordered_id)):
         for j in trees:
             if i == j.node_id:
@@ -45,6 +52,8 @@ def BuildTree(records):
                     if j.record_id == k.node_id:
                         child = k
                         parent.children.append(child)
+
     if len(trees) > 0:
         root = trees[0]
+
     return root
