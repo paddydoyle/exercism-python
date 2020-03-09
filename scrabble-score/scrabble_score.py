@@ -29,9 +29,4 @@ SCRABBLE_SCORES = {
 
 
 def score(word):
-    score = 0
-
-    for ch in word.upper():
-        score += SCRABBLE_SCORES.get(ch, 0)
-
-    return score
+    return sum(SCRABBLE_SCORES.get(ch, 0) for ch in word.upper())
