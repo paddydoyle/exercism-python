@@ -1,3 +1,47 @@
+PLANTS = {
+    'G': 'Grass',
+    'C': 'Clover',
+    'R': 'Radishes',
+    'V': 'Violets',
+    }
+
+PLANTS_PER_ROW = 2
+
+STUDENTS = [
+    "Alice",
+    "Bob",
+    "Charlie",
+    "David",
+    "Eve",
+    "Fred",
+    "Ginny",
+    "Harriet",
+    "Ileana",
+    "Joseph",
+    "Kincaid",
+    "Larry",
+    ]
+
+
 class Garden:
-    def __init__(self, diagram, students):
-        pass
+    def __init__(self, diagram, students = STUDENTS):
+        # The student list may not be sorted initially
+        self.students = sorted(students)
+
+        # Parse the diagram once initially
+        rows = diagram.split()
+
+        # Verify that the rows are equal sizes
+        if len(set(len(row) for row in rows)) != 1:
+            raise Exception("Garden diagram is unbalanced. Some rows"
+                            "are longer than others: {}".format(rows))
+
+        self.rows = rows
+
+    def plants(self, student):
+        if not student in self.students:
+            raise Exception("Requested student {} not in the list: {}".format(student, self.students))
+
+        index = self.students.index(student) * PLANTS_PER_ROW
+
+        return [PLANTS[ch] for row in self.rows for ch in row[index:index+PLANTS_PER_ROW]]
