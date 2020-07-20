@@ -34,12 +34,17 @@ class Garden:
 
         self.rows = rows
 
+        self.student_map = {student: self._gen_plants(student,
+                                                      index * PLANTS_PER_ROW)
+                            for (index, student) in enumerate(self.students)}
+
+    def _gen_plants(self, student, index):
+        return [PLANTS[ch] for row in self.rows
+                for ch in row[index:index+PLANTS_PER_ROW]]
+
     def plants(self, student):
         if student not in self.students:
             raise Exception("Requested student {} not in the list: {}"
                             "".format(student, self.students))
 
-        index = self.students.index(student) * PLANTS_PER_ROW
-
-        return [PLANTS[ch] for row in self.rows
-                for ch in row[index:index+PLANTS_PER_ROW]]
+        return self.student_map[student]
