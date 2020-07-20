@@ -25,14 +25,11 @@ STUDENTS = [
 
 class Garden:
     def __init__(self, diagram, students=None):
-        # Deal with dangerous-default-value issue
         if not students:
             self.students = STUDENTS
         else:
-            # The student list may not be sorted initially
             self.students = sorted(students)
 
-        # Parse the diagram once. Allow for different numbers of rows
         rows = diagram.split()
 
         # Verify that the rows are equal sizes
