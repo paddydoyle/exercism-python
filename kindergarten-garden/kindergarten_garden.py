@@ -32,11 +32,6 @@ class Garden:
 
         rows = diagram.split()
 
-        # Verify that the rows are equal sizes
-        if len(set(len(row) for row in rows)) != 1:
-            raise Exception("Garden diagram is unbalanced. Some rows"
-                            "are longer than others: {}".format(rows))
-
         self.rows = rows
 
     def plants(self, student):
