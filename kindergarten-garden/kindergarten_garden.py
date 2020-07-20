@@ -30,9 +30,7 @@ class Garden:
         else:
             students = sorted(students)
 
-        rows = diagram.split()
-
-        self.rows = rows
+        self.rows = diagram.split()
 
         self.student_map = {student: self._gen_plants(student,
                                                       index * PLANTS_PER_ROW)
